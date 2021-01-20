@@ -65,51 +65,40 @@ public class GuestDao {
 	
 	
 	//1명 조회하기
-	public GuestVo getGuest(int num) {
-		
+	public GuestVo getGuest(int num) {		
 		GuestVo guestVo = null;
 		
 		getConnection();
 		
 		try {
-			/*
-			select no,
-                   name,
-                   password,
-                   content,
-                   to_char(reg_date, 'yyyy-mm-dd hh24:mi:ss')
-            from guestbook;
-			 */
-			
-			String query ="";
-			query += " select no, ";
-			query += "        name, ";
-			query += "        password, ";
-			query += "        content, ";
-			query += "        reg_date ";
-			query += " from guestbook ";
-			
-			System.out.println(query);
-			pstmt = conn.prepareStatement(query);
-			rs = pstmt.executeQuery();
-			
-			//결과처리
-			while(rs.next()) {
-				int no = rs.getInt("no");
-				String name = rs.getString("name");
-				String password = rs.getString("password");
-				String content = rs.getString("content");
-				String regDate = rs.getString("reg_date");
+				String query ="";
+				query += " select no, ";
+				query += "        name, ";
+				query += "        password, ";
+				query += "        content, ";
+				query += "        reg_date ";
+				query += " from guestbook ";
 				
-				guestVo = new GuestVo(no, name, password, content, regDate);
-			}
+				System.out.println(query);
+				pstmt = conn.prepareStatement(query);
+				rs = pstmt.executeQuery();
+				
+				//결과처리
+				while(rs.next()) {
+					int no = rs.getInt("no");
+					String name = rs.getString("name");
+					String password = rs.getString("password");
+					String content = rs.getString("content");
+					String regDate = rs.getString("reg_date");
+					
+					guestVo = new GuestVo(no, name, password, content, regDate);
+				}
 			
-			}catch (SQLException e) {
-			    System.out.println("error:" + e);
-			} 
-		    close();
-			return guestVo;
-		
+		}catch (SQLException e) {
+		    System.out.println("error:" + e);
+		} 
+	    close();
+		return guestVo;	
 	}
 	
 	
@@ -193,44 +182,35 @@ public class GuestDao {
 		List<GuestVo> guestList = new ArrayList<GuestVo>();
 		
 		try {
-			/*
-			select no,
-                   name,
-                   password,
-                   content,
-                   to_char(reg_date, 'yyyy-mm-dd hh24:mi:ss')
-            from guestbook;
-			 */
-			
-			String query ="";
-			query += " select no, ";
-			query += "        name, ";
-			query += "        password, ";
-			query += "        content, ";
-			query += "        reg_date ";
-			query += " from guestbook ";
-			
-			System.out.println(query);
-			pstmt = conn.prepareStatement(query);
-			rs = pstmt.executeQuery();
-			
-			//결과처리
-			while(rs.next()) {
-				int no = rs.getInt("no");
-				String name = rs.getString("name");
-				String password = rs.getString("password");
-				String content = rs.getString("content");
-				String regDate = rs.getString("reg_date");
+				String query ="";
+				query += " select no, ";
+				query += "        name, ";
+				query += "        password, ";
+				query += "        content, ";
+				query += "        to_char(reg_date, 'yyyy-mm-dd') reg_date ";
+				query += " from guestbook ";
 				
-				GuestVo guestVo = new GuestVo(no, name, password, content, regDate);
-				guestList.add(guestVo);
-			}
+				System.out.println(query);
+				pstmt = conn.prepareStatement(query);
+				rs = pstmt.executeQuery();
+				
+				//결과처리
+				while(rs.next()) {
+					int no = rs.getInt("no");
+					String name = rs.getString("name");
+					String password = rs.getString("password");
+					String content = rs.getString("content");
+					String regDate = rs.getString("reg_date");
+					
+					GuestVo guestVo = new GuestVo(no, name, password, content, regDate);
+					guestList.add(guestVo);
+				}
 			
-			}catch (SQLException e) {
-			    System.out.println("error:" + e);
-			} 
-		    close();
-			return guestList;
+		}catch (SQLException e) {
+		    System.out.println("error:" + e);
+		} 
+	    close();
+		return guestList;
 		
 	}
 	
